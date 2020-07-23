@@ -1,0 +1,53 @@
+<계정생성 사용형식>
+ 	CREATE USER <사용자명> IDENTIFIED BY <패스워드>;
+<권한설정 사용형식>
+	 GRANT <권한명, 권한명, ....> TO <사용자 이름>;
+
+<테이블 생성 사용형식>
+	CREATE TABLE <테이블명> (
+		<컬럼명> <데이터 타입>[(크기)] [NOT NULL | NULL] [DEFAULT 값],
+		<컬럼명> <데이터 타입>[(크기)] [NOT NULL | NULL] [DEFAULT 값],
+		.....
+		<컬럼명> <데이터 타입>[(크기)] [NOT NULL | NULL] [DEFAULT 값],
+
+		[CONSTRAINT <기본키설정명> PRIMARY KEY (컬럼명 [, 컬럼명..])],
+		[CONSTRAINT <외래키설정명> FOREIGN KEY (컬럼명 [. 컬럼명..]),
+			REFRERENCES 외부테이블명(컬럼명))]
+
+<테이블명 수정 사용형식>
+	ALTER TABLE <대상 테이블명> RENAME TO <새로운 테이블명>
+
+<컬럼추가 사용형식>
+	ALTER TABLE <대상 테이블명>
+		ADD <컬럼명> <데이터 타입>[(크기)] [NOT NULL | NULL] [DEFUALT 값],
+		..... (복수개 추가의 경우 ADD 생략가능)
+
+<컬럼변경 사용형식>
+	ALTER TABLE <대상 테이블명>
+		MODIFY <컬럼명> <데이터 타입>[(크기)] [NOT NULL | NULL] [DEFUALT 값],
+		..... (복수개 추가의 경우 MODIFY 생략가능)
+
+<컬럼명 변경 사용형식>
+	ALTER TABLE <대상 테이블명> RENAME COLUMN <대상 컬럼명> TO <새로운 컬럼명>
+
+<컬럼삭제 사용형식>
+	ALTER TABLE <대상 테이블명> DROP COLUMN <컬럼명>
+
+<제약조건 추가 사용형식>
+	ALTER TABLE <대상 테이블명>
+		ADD CONSTRAINT <기본키설정명> PRIMARY KEY(컬럼명 [,컬럼명...]),
+		[CONSTRAINT <외래키설정명> FOREIGN KEY(컬럼명 [,컬럼명...])
+			REFERENCES 외부테이블명(컬럼명)];
+
+<제약조건 수정 사용형식>
+	ALTER TABLE <대상 테이블명>
+		MODIFY CONSTRAINT <기본키설정명> PRIMARY KEY(컬럼명 [, 컬럼명...]),
+		[CONSTRAINT <외래키설정명> FOREIGN KEY(컬럼명 [,컬럼명...])
+			REFERENCES 외부테이블명(컬럼명)];
+
+<제약조건 삭제 사용형식>
+	DROP CONSTRAINT <기본키설정명>|<외래키설정명>;
+		
+<테이블에 자료 삽입 사용형식>
+	INSERT INTO <테이블명> [(컬럼명[,컬럼명...])]
+		VALUES(값1, [, 값2 ....]))
