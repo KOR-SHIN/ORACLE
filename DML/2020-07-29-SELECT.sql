@@ -1,80 +1,80 @@
 <2020-07-29-02>
     
     1. SELECT
-        Å×ÀÌºí ³»ÀÇ ÀÚ·á¸¦ Á¶È¸ÇÒ ¶§ »ç¿ëÇÑ´Ù.
-        »ç¿ëÇü½Ä : SELECT [*|DISTINCT] <ÄÃ·³¸í>|EXPR [AS] ["]<ÄÃ·³º°Äª>["],
-                        <ÄÃ·³¸í>|EXPR [AS] ["]<ÄÃ·³º°Äª>["],
-                        <ÄÃ·³¸í>|EXPR [AS] ["]<ÄÃ·³º°Äª>["],
+        í…Œì´ë¸” ë‚´ì˜ ìžë£Œë¥¼ ì¡°íšŒí•  ë•Œ ì‚¬ìš©í•œë‹¤.
+        ì‚¬ìš©í˜•ì‹ : SELECT [*|DISTINCT] <ì»¬ëŸ¼ëª…>|EXPR [AS] ["]<ì»¬ëŸ¼ë³„ì¹­>["],
+                        <ì»¬ëŸ¼ëª…>|EXPR [AS] ["]<ì»¬ëŸ¼ë³„ì¹­>["],
+                        <ì»¬ëŸ¼ëª…>|EXPR [AS] ["]<ì»¬ëŸ¼ë³„ì¹­>["],
                         ...
-                        <ÄÃ·³¸í>|EXPR [AS] ["]<ÄÃ·³º°Äª>["]
-                    FROM <Å×ÀÌºí¸í> [º°Äª]
-                   [WHERE Á¶°Ç]
-                   [GROUP BY ÄÃ·³¸í [,ÄÃ·³¸í...]]
-                   [HAVING Á¶°Ç]
-                   [ORDER BY ÄÃ·³¸í|ÄÃ·³ÀÎµ¦½º [ASC|DESC]...]
+                        <ì»¬ëŸ¼ëª…>|EXPR [AS] ["]<ì»¬ëŸ¼ë³„ì¹­>["]
+                    FROM <í…Œì´ë¸”ëª…> [ë³„ì¹­]
+                   [WHERE ì¡°ê±´ [AND | OR ì¡°ê±´]]
+                   [GROUP BY ì»¬ëŸ¼ëª… [,ì»¬ëŸ¼ëª…...]]
+                   [HAVING ì¡°ê±´]
+                   [ORDER BY ì»¬ëŸ¼ëª…|ì»¬ëŸ¼ì¸ë±ìŠ¤ [ASC|DESC]...]
         
-        ½ÇÇà¼ø¼­(GROUP BY, HAVING, ORDER BY ¾ø´Â °æ¿ì) : FROM -> WHERE -> SELECT 
-        ½ÇÇà¼ø¼­(GROUP BY, HAVING, ORDER BY ÀÖ´Â °æ¿ì) : FROM -> WHERE -> (GROUP BY, HAVING, ORDER BY) -> SELECT
+        ì‹¤í–‰ìˆœì„œ(GROUP BY, HAVING, ORDER BY ì—†ëŠ” ê²½ìš°) : FROM -> WHERE -> SELECT 
+        ì‹¤í–‰ìˆœì„œ(GROUP BY, HAVING, ORDER BY ìžˆëŠ” ê²½ìš°) : FROM -> WHERE -> (GROUP BY, HAVING, ORDER BY) -> SELECT
          /* 
-         SELECTÀý¿¡¼­ ÁöÁ¤ÇÏ´Â ÄÃ·³º°ÄªÀº ¸ðµç ÀýÀÌ ¼öÇàµÇ°í ³ª¼­ ÀÔ·ÂµÇ´Â °ÍÀÌ±â ¶§¹®¿¡
-         ¸ÕÀú ¼öÇàµÇ´Â ´Ù¸¥ ÀýÀº SELECT¿¡¼­ »ç¿ëÇÏ´Â º°ÄªÀÌ¸§À» »ç¿ëÇÒ ¼ö ¾ø´Ù
+         SELECTì ˆì—ì„œ ì§€ì •í•˜ëŠ” ì»¬ëŸ¼ë³„ì¹­ì€ ëª¨ë“  ì ˆì´ ìˆ˜í–‰ë˜ê³  ë‚˜ì„œ ìž…ë ¥ë˜ëŠ” ê²ƒì´ê¸° ë•Œë¬¸ì—
+         ë¨¼ì € ìˆ˜í–‰ë˜ëŠ” ë‹¤ë¥¸ ì ˆì€ SELECTì—ì„œ ì‚¬ìš©í•˜ëŠ” ë³„ì¹­ì´ë¦„ì„ ì‚¬ìš©í•  ìˆ˜ ì—†ë‹¤
          */
          
-        ÄÃ·³º°Äª ÁöÁ¤½Ã "" »ý·«ºÒ°¡ °æ¿ì : °ø¹éÀ» Æ÷ÇÔ,¿À¶óÅ¬¸í·É¾î, ¿À¶óÅ¬¿¡¼­ »ç¿ëºÒ°¡ ¾ð¾î
+        ì»¬ëŸ¼ë³„ì¹­ ì§€ì •ì‹œ "" ìƒëžµë¶ˆê°€ ê²½ìš° : ê³µë°±ì„ í¬í•¨,ì˜¤ë¼í´ëª…ë ¹ì–´, ì˜¤ë¼í´ì—ì„œ ì‚¬ìš©ë¶ˆê°€ ì–¸ì–´
         
-        ÄÃ·³º°Äª Çü½Ä : SELECT COLL AS "Ã¹ ¹øÂ° ÄÃ·³"
-                             COLL AS Ã¹¹øÂ°Ä®·³ --(°¡Àå¸¹ÀÌ »ç¿ëÇÏ´Â Çü½Ä)
-                             COLL Ã¹¹øÂ°Ä®·³
+        ì»¬ëŸ¼ë³„ì¹­ í˜•ì‹ : SELECT COLL AS "ì²« ë²ˆì§¸ ì»¬ëŸ¼"
+                             COLL AS ì²«ë²ˆì§¸ì¹¼ëŸ¼ --(ê°€ìž¥ë§Žì´ ì‚¬ìš©í•˜ëŠ” í˜•ì‹)
+                             COLL ì²«ë²ˆì§¸ì¹¼ëŸ¼
                              
-        [WHERE Á¶°Ç]: WHERE Á¶°ÇÀýÀÌ »ý·«µÇ¸é ÄÃ·³ÀÇ ¸ðµç ÇàÀ» Á¶È¸ÇÑ´Ù.                     
-        [ASC|DESC] : ASC´Â ¿À¸§Â÷¼øÁ¤·Ä, DESC´Â ³»¸²Â÷¼øÁ¤·ÄÀ» ÁöÁ¤ÇÑ´Ù. (»ý·«½Ã DEFAULT : ASC)
+        [WHERE ì¡°ê±´]: WHERE ì¡°ê±´ì ˆì´ ìƒëžµë˜ë©´ ì»¬ëŸ¼ì˜ ëª¨ë“  í–‰ì„ ì¡°íšŒí•œë‹¤.                     
+        [ASC|DESC] : ASCëŠ” ì˜¤ë¦„ì°¨ìˆœì •ë ¬, DESCëŠ” ë‚´ë¦¼ì°¨ìˆœì •ë ¬ì„ ì§€ì •í•œë‹¤. (ìƒëžµì‹œ DEFAULT : ASC)
         
-               [*] : '*'Àº ÇØ´ç Å×ÀÌºí¿¡ ÀÖ´Â ¸ðµç ÄÃ·³À» Á¶È¸ 
-        [DISTINCT] : Áßº¹µÈ ÀÚ·á¸¦ Á¦¿Ü½ÃÄÑÁÖ´Â ¿¹¾à¾î
-            ex. È¸¿øÅ×ÀÌºí(MEMBER)¿¡¼­ È¸¿øµéÀÇ ÁÖ¼ÒÁö(±¤¿ª½Ã) Á¾·ù¸¦ Á¶È¸ÇÏ½Ã¿À.
-                SELECT SUBSTR(MEM_ADD1, 1, 2) AS ÁÖ¼ÒÁö
-                  FROM MEMBER; --¸ðµç ÁÖ¼ÒÁö Á¾·ù Ãâ·Â
+               [*] : '*'ì€ í•´ë‹¹ í…Œì´ë¸”ì— ìžˆëŠ” ëª¨ë“  ì»¬ëŸ¼ì„ ì¡°íšŒ 
+        [DISTINCT] : ì¤‘ë³µëœ ìžë£Œë¥¼ ì œì™¸ì‹œì¼œì£¼ëŠ” ì˜ˆì•½ì–´
+            ex. íšŒì›í…Œì´ë¸”(MEMBER)ì—ì„œ íšŒì›ë“¤ì˜ ì£¼ì†Œì§€(ê´‘ì—­ì‹œ) ì¢…ë¥˜ë¥¼ ì¡°íšŒí•˜ì‹œì˜¤.
+                SELECT SUBSTR(MEM_ADD1, 1, 2) AS ì£¼ì†Œì§€
+                  FROM MEMBER; --ëª¨ë“  ì£¼ì†Œì§€ ì¢…ë¥˜ ì¶œë ¥
                   
-                SELECT DISTINCT SUBSTR(MEM_ADD1, 1, 2) AS ÁÖ¼ÒÁö
-                  FROM MEMBER; --Áßº¹°ªÀ» Á¦°ÅÇØÁØ´Ù.
+                SELECT DISTINCT SUBSTR(MEM_ADD1, 1, 2) AS ì£¼ì†Œì§€
+                  FROM MEMBER; --ì¤‘ë³µê°’ì„ ì œê±°í•´ì¤€ë‹¤.
         
-            ex. Àå¹Ù±¸´ÏÅ×ÀÌºí(CART)¿¡¼­ 2005³â 6¿ù¿¡ ÆÇ¸ÅµÈ »óÇ°ÀÇ Á¾·ù¸¦ Á¶È¸ÇÏ½Ã¿À. (ÆÇ¸Å»óÇ° ÀüÃ¼Á¶È¸)
-                -- ÆÇ¸Å»óÇ° Á¾·ùÁ¶È¸´Â Áßº¹À» ¹èÁ¦ÇØ¾ß ÇÑ´Ù.
-                SELECT COUNT(DISTINCT CART_PROD) AS »óÇ°ÄÚµå 
+            ex. ìž¥ë°”êµ¬ë‹ˆí…Œì´ë¸”(CART)ì—ì„œ 2005ë…„ 6ì›”ì— íŒë§¤ëœ ìƒí’ˆì˜ ì¢…ë¥˜ë¥¼ ì¡°íšŒí•˜ì‹œì˜¤. (íŒë§¤ìƒí’ˆ ì „ì²´ì¡°íšŒ)
+                -- íŒë§¤ìƒí’ˆ ì¢…ë¥˜ì¡°íšŒëŠ” ì¤‘ë³µì„ ë°°ì œí•´ì•¼ í•œë‹¤.
+                SELECT COUNT(DISTINCT CART_PROD) AS ìƒí’ˆì½”ë“œ 
                   FROM CART
                  WHERE CART_NO LIKE '200506%'
                  ORDER BY CART_PROD;
                  -- COUNT(DISTINCT CART_PROD) 
-                 -- CART_PROD ÄÃ·³¿¡¼­ Áßº¹À» Á¦¿ÜÇÑ ÇàÀÇ ¼ýÀÚ¸¦ ¹ÝÈ¯ÇØÁØ´Ù.
+                 -- CART_PROD ì»¬ëŸ¼ì—ì„œ ì¤‘ë³µì„ ì œì™¸í•œ í–‰ì˜ ìˆ«ìžë¥¼ ë°˜í™˜í•´ì¤€ë‹¤.
                  
-            ex. »ç¿øÅ×ÀÌºí(EMPLOYEES)¿¡¼­ »ç¿ëµÇ´Â ºÎ¼­ÄÚµå¸¦ Á¶È¸ÇÏ½Ã¿À.
-                SELECT EMPLOYEES.DEPARTMENT_ID AS ºÎ¼­ÄÚµå,
-                       DEPARTMENT_NAME AS ºÎ¼­¸í
+            ex. ì‚¬ì›í…Œì´ë¸”(EMPLOYEES)ì—ì„œ ì‚¬ìš©ë˜ëŠ” ë¶€ì„œì½”ë“œë¥¼ ì¡°íšŒí•˜ì‹œì˜¤.
+                SELECT EMPLOYEES.DEPARTMENT_ID AS ë¶€ì„œì½”ë“œ,
+                       DEPARTMENT_NAME AS ë¶€ì„œëª…
                   FROM EMPLOYEES, DEPARTMENTS
                  WHERE EMPLOYEES.DEPARTMENT_ID= DEPARTMENTS.DEPARTMENT_ID
                  ORDER BY 1;
                   /*
                   [ORDER BY 1]
-                    DEPARTMENT_ID¸¦ ±âÁØÀ¸·Î ¿À¸§Â÷¼ø Á¤·ÄÇÏ¶ó´Â ÀÇ¹ÌÀÌ´Ù. (1 SELECTÀý¿¡ ³ª¿­µÈ ÄÃ·³ Áß Ã¹ ¹øÂ°)
-                    'ÄÃ·³ÀÎµ¦½º'´Â SELECTÀý¿¡ »ç¿ëµÈ ÄÃ·³ÀÇ ¼ø¹øÀÌ´Ù (1ºÎÅÍ ½ÃÀÛÇÑ´Ù)
+                    DEPARTMENT_IDë¥¼ ê¸°ì¤€ìœ¼ë¡œ ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬í•˜ë¼ëŠ” ì˜ë¯¸ì´ë‹¤. (1 SELECTì ˆì— ë‚˜ì—´ëœ ì»¬ëŸ¼ ì¤‘ ì²« ë²ˆì§¸)
+                    'ì»¬ëŸ¼ì¸ë±ìŠ¤'ëŠ” SELECTì ˆì— ì‚¬ìš©ëœ ì»¬ëŸ¼ì˜ ìˆœë²ˆì´ë‹¤ (1ë¶€í„° ì‹œìž‘í•œë‹¤)
                   
-                  TABLE 2°³ ÀÌ»ó »ç¿ëÇÏ´Â °æ¿ì¸¦ JOINÀÌ¶ó°í ÇÏ¸ç, WHEREÀýÀ» »ý·«ÇÏ¸é ¾ÈµÈ´Ù.
+                  TABLE 2ê°œ ì´ìƒ ì‚¬ìš©í•˜ëŠ” ê²½ìš°ë¥¼ JOINì´ë¼ê³  í•˜ë©°, WHEREì ˆì„ ìƒëžµí•˜ë©´ ì•ˆëœë‹¤.
                   
                   [WHERE EMPLOYEES.DEPARTMENT_ID = DEPARTMENTS.DEPARTMENT_ID]
-                     DEPARTMENT_ID°¡ µÎ Å×ÀÌºí¿¡ ¸ðµÎ Á¸ÀçÇÏ±â ¶§¹®¿¡ ±¸ºÐÇÏ±â À§ÇØ Å×ÀÌºí¸í.ÄÃ·³¸íÀ¸·Î ÀÛ¼ºÇÑ´Ù.
+                     DEPARTMENT_IDê°€ ë‘ í…Œì´ë¸”ì— ëª¨ë‘ ì¡´ìž¬í•˜ê¸° ë•Œë¬¸ì— êµ¬ë¶„í•˜ê¸° ìœ„í•´ í…Œì´ë¸”ëª….ì»¬ëŸ¼ëª…ìœ¼ë¡œ ìž‘ì„±í•œë‹¤.
                   */
                   
-                SELECT DISTINCT A.DEPARTMENT_ID AS ºÎ¼­ÄÚµå,
-                       DEPARTMENT_NAME AS ºÎ¼­¸í
+                SELECT DISTINCT A.DEPARTMENT_ID AS ë¶€ì„œì½”ë“œ,
+                       DEPARTMENT_NAME AS ë¶€ì„œëª…
                   FROM EMPLOYEES A , DEPARTMENTS B
                  WHERE A.DEPARTMENT_ID= B.DEPARTMENT_ID
                  ORDER BY 1;
                  /*
                  [FROM EMPLOYEES A , DEPARTMENTS B]
-                    Å×ÀÌºí º°ÄªÀ» »ç¿ëÇØ¼­ ÄÚµå¸¦ Âª°Ô »ç¿ë°¡´ÉÇÏ´Ù.
+                    í…Œì´ë¸” ë³„ì¹­ì„ ì‚¬ìš©í•´ì„œ ì½”ë“œë¥¼ ì§§ê²Œ ì‚¬ìš©ê°€ëŠ¥í•˜ë‹¤.
                 
-                 JOIN¿¡ »ç¿ëµÈ TABLE°³¼ö¿¡ µû¶ó Á¶°ÇÀÌ ´Þ¶óÁø´Ù.
-                    »ç¿ëµÈ TABLE°³¼ö°¡ 2°³¸é Àû¾îµµ 1°³ÀÇ Á¶°ÇÀ» »ç¿ëÇØ¾ßÇÑ´Ù. (TABLE - 1)°³
+                 JOINì— ì‚¬ìš©ëœ TABLEê°œìˆ˜ì— ë”°ë¼ ì¡°ê±´ì´ ë‹¬ë¼ì§„ë‹¤.
+                    ì‚¬ìš©ëœ TABLEê°œìˆ˜ê°€ 2ê°œë©´ ì ì–´ë„ 1ê°œì˜ ì¡°ê±´ì„ ì‚¬ìš©í•´ì•¼í•œë‹¤. (TABLE - 1)ê°œ
                     
-                 TABLE¿¡ µ¿ÀÏÇÑ ÄÃ·³ÀÌ ¾ø´Ù¸é µÎ TABLEÀº °ü°è°¡ ¾ø´Â°ÍÀÌ´Ù.
+                 TABLEì— ë™ì¼í•œ ì»¬ëŸ¼ì´ ì—†ë‹¤ë©´ ë‘ TABLEì€ ê´€ê³„ê°€ ì—†ëŠ”ê²ƒì´ë‹¤.
                  */
