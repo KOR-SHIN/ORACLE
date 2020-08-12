@@ -140,15 +140,123 @@
           SELECT 절에서 수식을 넣었을 경우, 피연산자 중 하나라도 NULL값을 가지는것이 있다면
           계산 결과가 모두 NULL값이 되기때문에 NULL CHECK를 반드시 하거나, 조건을 넣어야 한다
           */
-         
-         
-         
-    5. LIKE 연산자
-         
+             
+   5. LIKE 연산자
+         패턴비교 연산자
+         '%', '_' 와일드카드 사용
+         '%' : 사용된 위치 이후의 모든 문자열과 대응
+            ex. '김%' -> '김'으로 시작되는 모든 문자열과 대응
+         '_' : 사용된 위치에서 한글자와 대응
+            ex. '홍_동' -> 첫 글자가 '홍'이고 3글자로 구성되고 마지막 글자가 '동'인 문자열과 대응
+        패턴비교를 통해 특정 키워드가 들어간 문자열을 삭제하거나, 가져오는 동작이 가능하다.
+        LIKE 연산자는 문자열 비교에만 사용한다.
+        LIKE 연산자는 관계연산자를 사용하지 않는다.
     
+    ex. 회원테이블에서 거주지가 '서울'인 회원을 조회하시오.
+        (단, Alias는 회원번호, 회원명, 성별, 주소, 마일리지이며, 주소는 상세주소까지 출력하여라.)
+    solution.
+        SELECT MEM_ID AS 회원번호,
+               MEM_NAME AS 회원명,
+               CASE WHEN SUBSTR(MEM_REGNO2, 1, 1)='1' THEN '남성회원'
+                    ELSE '여성회원' END AS 성별,
+                /*
+                CASE WHEN IF(조건문)
+                THEN : TRUE인 경우 
+                ELSE : FLASE인 경우 
+                END : CASE문 종료
+                */
+                MEM_ADD1||'-'||MEM_ADD2 AS 주소,
+                MEM_MILEAGE AS 마일리지
+           FROM MEMBER
+          WHERE MEM_ADD1 LIKE '서울%';
+       -- WHERE SUBSTR(MEM_ADD1, 1, 2) = '서울' (처리속도가 LIKE연산자보다 빠르다)
+    
+    ex. 매입테이블(BUYPROD)에서 2005년 5~6월에 매입한 전자제품(P102)매입 현황을 조회하시오.
+        (단, Alias는 날짜(DATE), 제품코드(PROD), 수량(QTY), 단가(COST), 금액(QTY*COST)
+        (BUYER는 거래처, BUYPROD는 매입장, CART는 매출장)
+        
+    soltion.
+        SELECT BUY_DATE AS 날짜,
+               BUY_PROD AS 제품코드,
+               BUY_QTY AS 수량,
+               BUY_COST AS 단가,
+               BUY_QTY * BUY_COST AS 금액
+          FROM BUYPROD
+         WHERE BUY_DATE >= '20050501'
+           AND BUY_DATE <= '20050630'
+           AND BUY_PROD LIKE 'P102%'
+            -- SUBSTR(BUY_PROD, 1, 4) = 'P102'
+      ORDER BY 3 DESC, 1 DESC;
+         /*
+         ORDER BY <COLUMN | COLUMN NUMBER(1, 2, 3..)> DESC 내림차순 
+         ORDER BY <COLUMN | COLUMN NUMBER(1, 2, 3..)> ASC 오름차순 
+         키워드를 생략하면 ASC로 정렬된다.
+         ORDER BY 첫 번째 조건에서 정렬이 안되는 것(중복값이 있는 경우)은 두 번째 조건을 기준으로 정렬한다.
+
+         BUY_PROD LIKE 'P102' (문자열를 비교할때는 대소문자를 비교한다)
+         UPPER(BUY_PROD) LIKE 'P102' (PROD에 있는 데이터를 대문자로 바꿔서 비교하기)
+         LOWER(BUY_PROD) LIKE 'p102' (PROD에 있는 데이터를 소문자로 바꿔서 비교하기)
+         */
     
     
     6. BETWEEN ~ AND 조건식
+        범위를 지정하여 비교하는 경우 사용한다.
+        AND(논리연산자)를 대신하여 사용 가능하다.
+        문자열, 숫자, 날짜 타입 모두에 적용 가능하다.
+        사용형식 : 컬럼명|수식 BETWEEN 값1 AND 값2
+                  '컬럼명|수식'에 저장된 값이 '값1'<= 값<='값2'를 만족하면 참(TRUE)이다.
+        
+    ex. 매입테이블(BUYPROD)에서 2005년 5~6월에 매입한 전자제품(P102)매입 현황을 조회하시오.
+        (단, Alias는 날짜(DATE), 제품코드(PROD), 수량(QTY), 단가(COST), 금액(QTY*COST)이고 BETWEEN을 사용해야 한다.)
+        
+    solution.
+        SELECT BUY_DATE AS 날짜,
+               BUY_PROD AS 제품코드,
+               BUY_QTY AS 수량,
+               BUY_COST AS 단가,
+               BUY_QTY * BUY_COST AS 금액
+          FROM BUYPROD
+         WHERE BUY_DATE BETWEEN '20050501' AND '20050630'
+           AND BUY_PROD LIKE 'P102%'
+            -- SUBSTR(BUY_PROD, 1, 4) = 'P102'
+      ORDER BY 3 DESC, 1 DESC;
+    
+    ex. 장바구니테이블(CART)에서 2005년 6월 회원별 구매현황을 조회하시오.
+        (단, Alias는 회원번호, 구매금액합계)
+      
+    solution.  
+        SELECT CART_MEMBER AS 회원번호,
+               SUM(CART_QTY * PROD_PRICE) AS "구매금액 합계",
+               MEM_NAME AS 회원명
+          FROM CART , PROD, MEMBER
+         WHERE CART_PROD = PROD_ID --JOIN 조건
+           AND CART_MEMBER = MEM_ID
+           AND CART_NO LIKE '200506%'
+      GROUP BY CART_MEMBER, MEM_NAME;
+              
+        /*
+        CART_NO(8자리 날짜, 5자리는 순차적으로 부여되는 번호이다 00001 ~ 99999까지)
+        CART_MEMBER (구매자 이름)
+        CART_PROD (구매상품 코드)
+        CART_QTY (구매수량)
+        PROD_PRICE (판매단가)
+        PROD_SAIL (할인단가)
+        PROD_ID (상품코드)
+        집계함수를 사용 할 때는 GROUP BY를 사용해야한다.
+        */
+        
+          
+    ex. 사원테이블(EMPLYOEES)에서 급여가 5000 ~ 12000 사이의 사원정보를 조회하시오
+        (단, Alias는 사원번호, 사원명, 급여, 직무코드(JOB_ID))
+        
+    solution.
+        SELECT EMPLOYEE_ID AS 사원번호,
+               EMP_NAME AS 사원명,
+               SALARY AS 급여,
+               JOB_ID AS 직무코드
+          FROM EMPLOYEES
+         WHERE SALARY BETWEEN 5000 AND 12000
+      ORDER BY SALARY, EMPLOYEE_ID;
     
          
          
