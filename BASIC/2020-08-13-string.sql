@@ -68,7 +68,7 @@
                        
                     SELECT EMP_NAME 
                       FROM EMPLOYEES
-                      
+                                 
         1-2. CONCAT
                 첫 번째 매개변수와 두 번째 매개변수를 결합한 문자열을 반환한다.
                 '||'연산자와 동일한 기능을 수행한다.
@@ -137,4 +137,145 @@
                      WHERE EXTRACT(YEAR FROM SYSDATE) - SUBSTR(HIRE_DATE,1,4) >= 15
                 ORDER BY HIRE_DATE DESC
                       
+        1-4. LTRIM, RTRIM, TRIM
+                무효의 공백을 제거하는 함수
+                LTRIM은 왼쪽에 존재하는 무효의 공백을 제거한다.
+                RTRIM은 오른쪽에 존재하는 무효의 공백을 제거한다.
+                TRIM은 양쪽에 존재하는 무효의 공백을 제거한다.
+                
+                사용형식 : LTRIM(c, [,set]), RTRIM(c, [,set]), TRIM(c, [,set])
+                주어진 문자열 c에서 set으로 지정된 문자열을 왼쪽(LTRIM), 오른쪽(RTRIM) 찾아 제거
+                set이 생략되면 set은 공백을 의미한다.
+                
+                VARCHAR2는 무효공백을 알아서 처리하기 때문에 사용할 필요없다.
+                하지만 숫자가 문자로 변환이되어 정렬된 상태이거나, 남은공간을 무효값으로 채워주는 데이터 타입에 대해서는 사용한다.
+               
+                ex. 거래처명의 데이터 타입을 CHAR(40) 으로 바꾸시오.
+                solution.
+                    ALTER TABLE BUYER
+                    MODIFY BUYER_NAME CHAR(40);
+                
+                
+                ex. 거래처테이블에서 거래처명이 '대현'인 거래처 정보를 조회하시오.
+                    (단, Alias는 거래처코드, 거래처명, 거래처주소이고, 거래처명이다.)
+                solution.
+                    SELECT BUYER_ID AS 거래처코드,
+                           BUYER_NAME AS 거래처명,
+                           BUYER_ADD1||' '||BUYER_ADD2 AS 거래처주소
+                      FROM BUYER
+                     WHERE BUYER_NAME = '대현'
+                
+                
+                ex. 거래처테이블에서 거래처명이 '대현'인 거래처 정보를 조회하시오.
+                    (단, Alias는 거래처코드, 거래처명, 거래처주소이고, 거래처명은 TRIM을 사용하여 공백을 제거한다)
+                solution.
+                    SELECT BUYER_ID AS 거래처코드,
+                           RTRIM(BUYER_NAME) AS 거래처명,
+                           BUYER_ADD1||' '||BUYER_ADD2 AS 거래처주소
+                      FROM BUYER
+                     WHERE BUYER_NAME = '대현'
+                
+
+                ex. 거래처테이블에서 거래처 기본주소(ADD1) 중 대전에 있는 거래처를 검색하여
+                    '대전'문자열을 제거하시오.
+                solution.
+                    SELECT BUYER_ID AS 거래처코드,
+                           TRIM(BUYER_NAME) AS 거래처명,
+                           LTRIM(BUYER_ADD1, '대전') AS 기본주소
+                      FROM BUYER
+                     WHERE BUYER_ADD1 LIKE '대전%'
+                     /*
+                     LTRIM(BUYER_ADD1, '대전')은 ADD1에서 왼쪽에 있는 '대전%'와 대응되는 을 제거시킨다.
+                     RTRIM(BUYER_ADD1, '대전')의 경우 제거시키지 못한다 
+                            ex. 대전 대덕구 오정동 운암빌딩
+                                -> RTRIM은 오른쪽부터 비교를 시작하기 때문에 '대', '전'과 대응되는 문자열을 만나기전에 비교가 끝난다.
+                                -> '대전'이라는 패턴에 맞게 지우는 것이 아니라, '대','전'과 패턴이 맞는것을 지운다.
+                                -> 공백도 비교의 대상이기 때문에, set영역에 공백을 넣어주지 않으면 공백을 만나는 즉시 문자열을 반환한다.
+                                -> 만약 중간에 '대', '전'에 대응되는 패턴이 없으면 끝까지 비교하지 않고 문자열을 반환한다.
+                                
+                                SELECT RTRIM('대전 대덕구 오정동 운암빌딩', '구오덕정대동운딩빌암 ')
+                                FROM DUAL
+                      */
+                      
+        1-5. LPAD, RPAD 
+                LPAD : c문자열에 왼쪽에 n자리만큼 expr문자열을 삽입하여 c를 반환
+                       expr이 생략되면 공백이 삽입
+                       
+                RPAD : c문자열에 오른쪽에 n자리만큼 expr문자열을 삽입하여 c를 반환
+                       expr이 생략되면 공백이 삽입
+                       
+                사용형식 : LPAD(c, n, expr)
+                          RPAD(c, n, expr)
+                
+                ex. SELECT LPAD(MEM_NAME, 11, '성명:') 
+                      FROM MEMBER
+                    -- 한글의 경우 n값이 적용이 잘 안되는 경우가 있다.
+                
+                ex. SELECT LPAD(EMAIL, 13, 'mail:')
+                      FROM EMPLOYEES
+                    
+                ex. SELECT LPAD(EMAIL, 13, '*')
+                      FROM EMPLOYEES
                         
+                ex. SELECT EMAIL,
+                           LPAD(EMAIL, 13)
+                      FROM EMPLOYEES
+                    -- 왼쪽부터 13글자를 지정해서, 글자가 들어가고 남는공간을 공백으로 채운다
+                    -- 결과적으로 문자열은 왼쪽정렬이지만, 왼쪽에 공백을 채워넣어 오른쪽 정렬로 만든다.
+                    
+                ex. SELECT TO_CHAR(MEM_MILEAGE) AS "AD"
+                      FROM MEMBER
+                    -- 숫자를 문자열로 변환하여 왼쪽정렬
+                    
+                ex. SELECT LPAD(TO_CHAR(MEM_MILEAGE), 5) AS "AD"
+                      FROM MEMBER
+                    -- 숫자를 문자열로 변환하고 왼쪽정렬된 문자열의 왼쪽에 공백을 넣어 오른쪽 정렬로 만든다.
+                
+
+        1-6. REPLACE
+                사용형식 : REPLACE(c, ser_c, rep_c)
+                문자열 c에서 ser_c문자열을 찾아서 rep_c문자열로 대체시킨다.
+                
+                ex. SELECT MEM_NAME AS 멤버이름,
+                           REPLACE(MEM_NAME, '김', 'KIM') AS "변경된 문자열"
+                      FROM MEMBER
+                
+                ex. SELECT REPLACE('IL POSTINO  BOY HOOD', ' ', '')
+                      FROM DUAL
+                    -- 문자열에 포함되어 있는 공백을 제거한다.
+                    
+                ex. 거래처테이블의 거래처명의 데이터 타입을 VARCHAR2(40)으로 변경하시오.
+                    (거래처명의 데이터 타입은 원래 VARCHAR2에서 CHAR로 변환하고 공백을 넣은 상태이다)
+                solution.
+                    ALTER TABLE BUYER
+                    MODIFY BUYER_NAME VARCHAR2(40)
+                    -- 현재 VARCHAR2로 변경했지만, 이전의 공백이 남아있는 상태.
+                    
+                    UPDATE BUYER
+                       SET BUYER_NAME = TRIM(BUYER_NAME)
+                    -- UPDATE와 TRIM을 사용하여 공백을 제거해준다.
+                    -- SET BUYER_NAME = REPLACE(BUYER_NAME, ' ', '') 가능
+ 
+        1-7. INSTR
+                자바의 chatAt(i)메서드와 같은 기능을 수행한다.
+                사용형식 : INSRT(c, substr[, pos][, occur])
+                occur, pos 생략한 경우 : 주어진 문자열 c에서 substr을 찾아서, 첫 번째 만나는 substr의 인덱스 값을 반환해준다.
+                occur, pos 생략하지 않은 경우 : 주어진 문자열 c에서 pos번째부터 시작해서 occur번째에 만난 substr의 인덱스 값을 반환해준다.
+                occur만 생략한 경우 : 주어진 문자열 c에서 pos번째부터 시작해서 첫 번째 만나는 substr의 인덱스 값을 반환해준다.
+                
+                ex. SELECT INSTR('무궁화 꽃이 피었을까 무궁화 꽃은 우리나라 꽃 입니다.', '꽃', 6, 2) AS 결과
+                      FROM DUAL
+                      -- 6번째 글자부터 시작해서 2번째에 만난 꽃의 인덱스값을 반환한다.
+                      
+        1-8. LENGTH, LENGTHB
+                -- B는 BYTE, b는 bit를 의미한다.
+                LENGTH(c) : c의 길이를 반환한다.
+                LENGTHB(c) : 문자열의 byte를 반환한다.
+                      
+                ex. SELECT LENGTH('KOR-SHIN')
+                      FROM DUAL
+                      
+                      
+                      
+                      
+                      
