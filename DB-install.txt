@@ -1,0 +1,24 @@
+
+D:\B_Util\1.설치 및 압축파일\[45]Oracle\OracleXE112_Win64\DISK1
+Setup
+경로설정
+Id, Password 설정
+
+D:\B_Util\1.설치 및 압축파일\[45]Oracle\win32_11gR2_client\client
+Setup 
+경로설정
+
+D:\B_Util\1.설치 및 압축파일\[27]SqlDevelper\sqldeveloper
+sqldeveloper 시작줄 고정
+jdk 1.8 경로설정
+
+'+'로 접속해서 계정생성 (접속이름 임의, 사용자이름 System 비밀번호 java)
+테스트 -> 성공 -> 접속
+
+CREATE USER SKJ IDENTIFIED java;
+GRANT CONNECT, RESOUCE, DBA TO SKJ;
+
+파일열기 -> sql_database -> CART TABLE까지 블록처리 -> crtl + Enter
+
+expall파일 D드라이브에 복사
+cmd -> D: -> imp <USER.NAME>/<PASSOWRD> file=expall.dmp indexes=y ignore=y grants=y full=y
