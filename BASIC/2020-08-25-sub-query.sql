@@ -226,6 +226,7 @@
                          WHERE B.PARENT_ID = 90
                            AND A.DEPARTMENT_ID = B.DEPARTMENT_ID
                       
+                      
        1-2. 사용되는 형태, 위치 여부 : 일반 서브쿼리(SELECT 절), 인라인 서브쿼리(FROM절), 중첩 서브쿼리(WHERE절)
        1-3. 반환값의 개수 여부 : 단일행/단일열, 단일행/다중열, 다중행/단일열, 다중행/다중열
         
