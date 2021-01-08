@@ -1,0 +1,88 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<snippets>
+   <group category="JAVA" language="PLSQL">
+      <snippet name="vo 생성 코드 조각" description="">
+         <code>
+            <![CDATA[select CASE WHEN NULLABLE='N' AND (DATA_TYPE='VARCHAR2' OR DATA_TYPE='CHAR')
+        THEN '@NotBlank'
+        WHEN NULLABLE='N' AND DATA_TYPE = 'NUMBER' THEN '@NotNull @Min(0)'
+        ELSE '' END
+   || DECODE(DATA_TYPE, 'NUMBER', '', '@Size(max='||DATA_LENGTH||')')     
+   ||  ' private '||
+   DECODE( DATA_TYPE , 'NUMBER', 'Integer ', 'String ' )||
+   LOWER(COLUMN_NAME)||';'
+from cols
+WHERE TABLE_NAME = 'PROD'
+ORDER BY COLUMN_ID;]]>
+         </code>
+      </snippet>
+      <snippet name="쿼리 파라미터 셋팅" description="">
+         <code>
+            <![CDATA[--stmt.setString(i++, member.getMem_id())
+SELECT 'stmt.set'||
+    DECODE(DATA_TYPE, 'NUMBER', 'Int', 'String')||
+    '(i++, '||LOWER(TABLE_NAME)||'.get'||
+    SUBSTR(COLUMN_NAME, 1, 1)||SUBSTR(LOWER(COLUMN_NAME), 2)||
+    '());'
+FROM COLS
+WHERE TABLE_NAME = 'MEMBER'
+ORDER BY COLUMN_ID;]]>
+         </code>
+      </snippet>
+      <snippet name="setter 코드조각" description="">
+         <code>
+            <![CDATA[--zipVO.setZipcode(rs.getString("ZIPCODE")); SELECT 'zipVO.set'||     SUBSTR(COLUMN_NAME, 1, 1) ||     SUBSTR(LOWER(COLUMN_NAME), 2)||     '(rs.get'||     DECODE(DATA_TYPE, 'NUMBER', 'Int', 'String')||     '("'||COLUMN_NAME||'"));' FROM COLS WHERE TABLE_NAME = 'TB_ZIP';]]>
+         </code>
+      </snippet>
+      <snippet name="COMMENT 생성 코드조각" description="">
+         <code>
+            <![CDATA[ --COMMENT ON COLUMN MEMBER.MEM_ID IS '아이디'; SELECT 'COMMENT ON COLUMN '||     TABLE_NAME ||'.' ||COLUMN_NAME || ' IS '''';'     FROM COLS WHERE TABLE_NAME = 'MEMBER' ORDER BY COLUMN_ID;]]>
+         </code>
+      </snippet>
+      <snippet name="입력폼 구성" description="">
+         <code>
+            <![CDATA[--<tr>
+--			<th>아이디</th>
+--			<td>
+--				<input type="text" class="form-control" required name="mem_id" value="" />
+--			</td>
+--		</tr>
+SELECT '<tr><th class="text-center">'||COMMENTS||'</th><td  class="pb-1">'||
+    '<input type="'||
+    CASE DATA_TYPE WHEN 'DATE' THEN 'date'
+        WHEN 'NUMBER' THEN 'number'
+        ELSE 'text' END     ||
+    '" class="form-control" ' || DECODE(NULLABLE, 'N', 'required', '')||
+    ' name="'||LOWER(A.COLUMN_NAME)||'" value="${'||
+    LOWER(A.TABLE_NAME)||'.'||LOWER(A.COLUMN_NAME)||
+    '}" />'||
+    '<span class="error">${errors.'||lower(a.column_name)||' }</span>'||
+    '</td></tr>'
+FROM COLS A INNER JOIN USER_COL_COMMENTS B
+    ON (A.TABLE_NAME = B.TABLE_NAME) AND (A.COLUMN_NAME = B.COLUMN_NAME)
+WHERE A.TABLE_NAME='BOARD'
+ORDER BY COLUMN_ID;]]>
+         </code>
+      </snippet>
+      <snippet name="상세조회 코드" description="">
+         <code>
+            <![CDATA[--<tr>
+--	<th class="text-center">이름</th>
+--	<td class="pb-1">
+--		<%=member.getMem_name() %>
+--	</td>		
+--</tr>
+
+SELECT '<tr><th class="text-center">'||
+    COMMENTS||'</th><td class="pb-1">'||
+    '${'||LOWER(A.TABLE_NAME)||'.'||LOWER(A.COLUMN_NAME)||
+    ' }</td></tr>'
+FROM COLS  A INNER JOIN USER_COL_COMMENTS B 
+    ON (A.TABLE_NAME=B.TABLE_NAME AND A.COLUMN_NAME = B.COLUMN_NAME)
+WHERE A.TABLE_NAME = 'BOARD'
+ORDER BY COLUMN_ID;
+DESC USER_COL_COMMENTS;]]>
+         </code>
+      </snippet>
+   </group>
+</snippets>
